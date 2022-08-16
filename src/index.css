@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+	@apply min-h-screen grid grid-rows-[auto_1fr_auto] bg-gray-900 text-white;
+}
