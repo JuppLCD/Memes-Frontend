@@ -1,11 +1,10 @@
+import Header from '../components/Header';
 import Page from '../page';
 
 function Layout() {
 	return (
 		<>
-			<header>
-				<p>HEADER</p>
-			</header>
+			<Header />
 			<Page />
 			<footer>
 				<p>FOOTER</p>
