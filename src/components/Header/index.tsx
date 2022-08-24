@@ -1,10 +1,17 @@
 import { Link } from 'react-router-dom';
+
 import { useReduxDispatch, useReduxSelector } from '../../store';
+import { logoutUser } from '../../store/slices/meme/MemeSlice';
 import { logout } from '../../store/slices/user/UserSlice';
 
 function Header() {
 	const userState = useReduxSelector((state) => state.user);
 	const dispach = useReduxDispatch();
+
+	const logoutClickFunction = () => {
+		dispach(logout());
+		dispach(logoutUser());
+	};
 	return (
 		<header>
 			{userState.isAuth ? (
@@ -12,7 +19,7 @@ function Header() {
 					<Link to='/'>Home</Link>
 					<Link to='/public'>Public memes</Link>
 					<Link to='/user'>User memes</Link>
-					<button onClick={() => dispach(logout())}>Log Out</button>
+					<button onClick={logoutClickFunction}>Log Out</button>
 				</>
 			) : (
 				<>

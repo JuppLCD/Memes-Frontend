@@ -3,7 +3,7 @@ import { URL_API_BACKEND } from '../../config';
 
 // REDUX
 import { useReduxDispatch } from '../../store';
-import { setToken } from '../../store/slices/user/UserSlice';
+import { setInfoUser, setToken } from '../../store/slices/user/UserSlice';
 
 import { FormUser } from '../../types/Form';
 
@@ -36,6 +36,7 @@ function FormSession() {
 
 		const data = await res.json();
 		dispach(setToken(data.accessToken as string));
+		dispach(setInfoUser(data.userInfo));
 	};
 
 	return (

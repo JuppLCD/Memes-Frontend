@@ -1,28 +1,26 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { URL_API_BACKEND } from '../../config';
-import { useReduxSelector } from '../../store';
+import { useReduxDispatch, useReduxSelector } from '../../store';
+import { userCreteMeme } from '../../store/slices/meme/MemeSlice';
 
-export interface Meme {
-	name: string;
-	access: 'false' | 'true';
-	file: File | null;
-}
+import { FormMeme as FormMemeInterface } from '../../types/Form';
 
 function FormMeme() {
-	const initialState: Meme = {
+	const initialState: FormMemeInterface = {
 		name: '',
 		access: 'false',
 		file: null,
 	};
 
-	const [inputsData, setInputsData] = useState<Meme>(initialState);
-
+	const [inputsData, setInputsData] = useState<FormMemeInterface>(initialState);
 	const UserState = useReduxSelector((state) => state.user);
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		let { name, value }: { name: string; value: string | null | File } = e.target;
+	const dispatch = useReduxDispatch();
 
-		setInputsData((prevState: Meme) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		let { name, value }: { name: string; value: any } = e.target;
+
+		setInputsData((prevState: FormMemeInterface) => {
 			if (name === 'file') {
 				if (e.target.files) {
 					value = e.target.files[0];
@@ -39,7 +37,6 @@ function FormMeme() {
 		e.preventDefault();
 
 		if (inputsData.file !== null && inputsData.name && inputsData.access) {
-			console.log('INPUTDATA => ', inputsData);
 			const formData = new FormData();
 			formData.append('name', inputsData.name);
 			formData.append('file', inputsData.file as File);
@@ -53,8 +50,9 @@ function FormMeme() {
 				},
 				body: formData,
 			});
+			// ! Se debe hacer validaciones de lo que entra
 			const data = await res.json();
-			console.log('RESPONSE DATA => ', data);
+			dispatch(userCreteMeme(data));
 		} else {
 			alert('Error: rellene los campos');
 		}

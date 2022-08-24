@@ -4,6 +4,6 @@ export interface UserState {
 
 	userInfo?: {
 		name: string;
-		email: string;
+		id: string;
 	};
 }

@@ -4,3 +4,9 @@ export interface FormUser {
 	password: string;
 	passwordConfirm: string;
 }
+
+export interface FormMeme {
+	name: string;
+	access: 'false' | 'true';
+	file: File | null;
+}

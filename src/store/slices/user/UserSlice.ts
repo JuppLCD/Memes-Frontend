@@ -17,7 +17,7 @@ export const userSlice = createSlice({
 			state.isAuth = true;
 		},
 
-		setInfoUser: (state, action: PayloadAction<{ name: string; email: string }>) => {
+		setInfoUser: (state, action: PayloadAction<{ name: string; email: string; id: string }>) => {
 			state.userInfo = action.payload;
 		},
 
