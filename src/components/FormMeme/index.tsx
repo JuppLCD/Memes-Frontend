@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { URL_API_BACKEND } from '../../config';
+import { useNotification } from '../../hooks/useNotification';
 import { useReduxDispatch, useReduxSelector } from '../../store';
 import { userCreteMeme } from '../../store/slices/meme/MemeSlice';
 
@@ -16,6 +17,8 @@ function FormMeme() {
 	const UserState = useReduxSelector((state) => state.user);
 
 	const dispatch = useReduxDispatch();
+
+	const { notifyError, notifyLoading, notifySuccess } = useNotification();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		let { name, value }: { name: string; value: any } = e.target;
@@ -42,19 +45,26 @@ function FormMeme() {
 			formData.append('file', inputsData.file as File);
 			formData.append('access', inputsData.access);
 
-			const res = await fetch(URL_API_BACKEND + '/meme/create', {
-				method: 'POST',
-				headers: {
-					mode: 'no-cors',
-					authorization: UserState.token as string,
-				},
-				body: formData,
-			});
-			// ! Se debe hacer validaciones de lo que entra
-			const data = await res.json();
-			dispatch(userCreteMeme(data));
+			notifyLoading();
+			try {
+				const res = await fetch(URL_API_BACKEND + '/meme/create', {
+					method: 'POST',
+					headers: {
+						mode: 'no-cors',
+						authorization: UserState.token as string,
+					},
+					body: formData,
+				});
+				// ! Se debe hacer validaciones de lo que entra
+				const data = await res.json();
+				dispatch(userCreteMeme(data));
+				notifySuccess('Meme created successfully');
+			} catch (err) {
+				console.error(err);
+				notifyError('Error to create meme');
+			}
 		} else {
-			alert('Error: rellene los campos');
+			notifyError('All fields are required');
 		}
 	};
 

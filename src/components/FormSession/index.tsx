@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { URL_API_BACKEND } from '../../config';
+import { useNotification } from '../../hooks/useNotification';
 
 // REDUX
 import { useReduxDispatch } from '../../store';
@@ -13,6 +14,8 @@ function FormSession() {
 	const [inputsData, setInputsData] = useState<FormUser>(initialState);
 
 	const dispach = useReduxDispatch();
+
+	const { notifySuccess, notifyLoading } = useNotification();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -28,15 +31,22 @@ function FormSession() {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const res = await fetch(URL_API_BACKEND + '/user/login', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ email: inputsData.email, password: inputsData.password }),
-		});
+		try {
+			notifyLoading();
 
-		const data = await res.json();
-		dispach(setToken(data.accessToken as string));
-		dispach(setInfoUser(data.userInfo));
+			const res = await fetch(URL_API_BACKEND + '/user/login', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email: inputsData.email, password: inputsData.password }),
+			});
+
+			const data = await res.json();
+			notifySuccess('Login successfully');
+			dispach(setToken(data.accessToken as string));
+			dispach(setInfoUser(data.userInfo));
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	return (
