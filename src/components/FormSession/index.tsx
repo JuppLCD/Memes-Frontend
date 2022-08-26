@@ -7,7 +7,7 @@ import { useReduxDispatch } from '../../store';
 import { setInfoUser, setToken } from '../../store/slices/user/UserSlice';
 
 import { FormUser } from '../../types/Form';
-import { Form, Input } from '../FormElemets';
+import Form from '../FormElemets';
 
 function FormSession() {
 	const initialState: FormUser = { email: 'ejemplo@gmail.com', name: 'user2', password: '123', passwordConfirm: '123' };
@@ -51,34 +51,36 @@ function FormSession() {
 	};
 
 	return (
-		<Form title='Log In' onSubmit={(e) => handleSubmit(e)}>
+		<Form title='Log In' onSubmit={handleSubmit}>
 			<div className='mb-6'>
-				<Input
-					label={{ text: 'Your email', className: 'mb-2' }}
-					input={{ type: 'email', placeholder: 'example@gmail.com', value: inputsData.email, onChange: handleChange }}
+				<Form.InputLabel
+					label='Your email'
+					type='email'
+					name='email'
+					placeholder='example@gmail.com'
+					value={inputsData.email}
+					onChange={handleChange}
 				/>
 			</div>
 			<div className='mb-6'>
-				<Input
-					label={{ text: 'Your password', className: 'mb-2' }}
-					input={{
-						type: 'password',
-						placeholder: '******',
-						value: inputsData.password,
-						onChange: handleChange,
-						autoComplete: 'off',
-					}}
+				<Form.InputLabel
+					label='Your password'
+					type='password'
+					name='password'
+					placeholder='******'
+					value={inputsData.password}
+					onChange={handleChange}
+					autoComplete='off'
 				/>
 			</div>
 			<div className='flex items-start mb-6'>
-				<Input
-					label={{ text: 'Remember me', className: 'flex flex-row-reverse' }}
-					input={{
-						type: 'checkbox',
-						className: 'w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 mr-2',
-					}}
-					replaceClass={true}
-				/>
+				<label className='text-sm font-medium text-gray-300 flex'>
+					<input
+						type='checkbox'
+						className='w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 mr-2'
+					/>
+					Remember me
+				</label>
 			</div>
 			<button
 				type='submit'

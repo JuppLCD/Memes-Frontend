@@ -5,7 +5,7 @@ function UserPage() {
 	return (
 		<main>
 			<Container>
-				<h2>User Memes</h2>
+				<h2 className='text-center text-2xl mb-7'>User Memes</h2>
 				<GridMemes to='/' />
 			</Container>
 		</main>

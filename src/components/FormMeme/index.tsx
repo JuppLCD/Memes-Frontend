@@ -6,6 +6,8 @@ import { userCreteMeme } from '../../store/slices/meme/MemeSlice';
 
 import { FormMeme as FormMemeInterface } from '../../types/Form';
 
+import Form from './../FormElemets';
+
 function FormMeme() {
 	const initialState: FormMemeInterface = {
 		name: '',
@@ -69,36 +71,21 @@ function FormMeme() {
 	};
 
 	return (
-		<form onSubmit={handleSubmit} encType='multipart/form-data'>
-			<h2>FORM MEME</h2>
-			<div>
-				<label>
-					<h4>Name:</h4>
-					<input type='text' name='name' value={inputsData.name} onChange={handleChange} />
-				</label>
+		<Form onSubmit={handleSubmit} encType='multipart/form-data' title='Create Meme'>
+			<div className='mb-6'>
+				<Form.InputLabel label='Name:' type='text' name='name' value={inputsData.name} onChange={handleChange} />
 			</div>
-			<div>
-				<h4>Access:</h4>
-				<label>
-					<input
-						type='radio'
-						name='access'
-						value='true'
-						onChange={handleChange}
-						checked={inputsData.access === 'true'}
-					/>
-					Public
-				</label>
-				<label>
-					<input
-						type='radio'
-						name='access'
-						value='false'
-						onChange={handleChange}
-						checked={inputsData.access === 'false'}
-					/>
-					Private
-				</label>
+			<div className='mb-6'>
+				<Form.InputRadio
+					title='Access:'
+					name='access'
+					handleChange={handleChange}
+					check={inputsData.access}
+					inputs={[
+						{ label: 'Public', value: 'true' },
+						{ label: 'Private', value: 'false' },
+					]}
+				/>
 			</div>
 			<div>
 				<label>
@@ -115,7 +102,7 @@ function FormMeme() {
 					Save
 				</span>
 			</button>
-		</form>
+		</Form>
 	);
 }
 

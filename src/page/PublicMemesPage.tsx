@@ -5,7 +5,7 @@ function PublicMemesPage() {
 	return (
 		<main>
 			<Container>
-				<h2>Public Memes</h2>
+				<h2 className='text-center text-2xl mb-7'>Public Memes</h2>
 				<GridMemes to='/public' />
 			</Container>
 		</main>
