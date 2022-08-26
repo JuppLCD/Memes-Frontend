@@ -5,7 +5,6 @@ const SessionPage = () => {
 	return (
 		<main>
 			<Container>
-				<h2>SessionPage</h2>
 				<FormSession />
 			</Container>
 		</main>

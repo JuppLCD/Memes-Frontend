@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import Container from '../components/Container';
 import FormMeme from '../components/FormMeme';
 

@@ -19,7 +19,7 @@ function Meme({ meme }: Props) {
 			headers: { mode: 'no-cors', authorization: userState.token as string },
 		});
 		if (res.status === 200) {
-			dispatch(userDeleteMeme(meme.uuid));
+			dispatch(userDeleteMeme(meme));
 			notifySuccess(`${meme.name} - Deleting  successfully`);
 		} else {
 			notifyError(`Error deleting meme "${meme.name}"`);

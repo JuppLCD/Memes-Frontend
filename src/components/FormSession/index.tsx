@@ -7,6 +7,7 @@ import { useReduxDispatch } from '../../store';
 import { setInfoUser, setToken } from '../../store/slices/user/UserSlice';
 
 import { FormUser } from '../../types/Form';
+import { Form, Input } from '../FormElemets';
 
 function FormSession() {
 	const initialState: FormUser = { email: 'ejemplo@gmail.com', name: 'user2', password: '123', passwordConfirm: '123' };
@@ -50,35 +51,42 @@ function FormSession() {
 	};
 
 	return (
-		<form onSubmit={(e) => handleSubmit(e)}>
-			<h2>FORM USER</h2>
-			<div>
-				<label>
-					Email
-					<input
-						type='email'
-						name='email'
-						value={inputsData.email}
-						onChange={handleChange}
-						placeholder='example@gmail.com'
-					/>
-				</label>
+		<Form title='Log In' onSubmit={(e) => handleSubmit(e)}>
+			<div className='mb-6'>
+				<Input
+					label={{ text: 'Your email', className: 'mb-2' }}
+					input={{ type: 'email', placeholder: 'example@gmail.com', value: inputsData.email, onChange: handleChange }}
+				/>
 			</div>
-			<div>
-				<label>
-					Password
-					<input
-						type='password'
-						name='password'
-						value={inputsData.password}
-						onChange={handleChange}
-						placeholder='*******'
-						autoComplete='off'
-					/>
-				</label>
+			<div className='mb-6'>
+				<Input
+					label={{ text: 'Your password', className: 'mb-2' }}
+					input={{
+						type: 'password',
+						placeholder: '******',
+						value: inputsData.password,
+						onChange: handleChange,
+						autoComplete: 'off',
+					}}
+				/>
 			</div>
-			<button type='submit'>Submit</button>
-		</form>
+			<div className='flex items-start mb-6'>
+				<Input
+					label={{ text: 'Remember me', className: 'flex flex-row-reverse' }}
+					input={{
+						type: 'checkbox',
+						className: 'w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 mr-2',
+					}}
+					replaceClass={true}
+				/>
+			</div>
+			<button
+				type='submit'
+				className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center '
+			>
+				Submit
+			</button>
+		</Form>
 	);
 }
 

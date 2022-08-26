@@ -56,7 +56,11 @@ function GridMemes({ to }: Props) {
 	return (
 		<div>
 			{memes !== undefined && memes.length !== 0 ? (
-				memes.map((meme) => <Meme meme={meme} key={meme.uuid} />)
+				<div className='grid gap-8 sm:grid-cols-2 lg:grid-cols-3 sm:mx-auto sm:max-w-full'>
+					{memes.map((meme) => (
+						<Meme meme={meme} key={meme.uuid} />
+					))}
+				</div>
 			) : (
 				<p>No hay memes</p>
 			)}
