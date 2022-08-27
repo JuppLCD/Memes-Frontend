@@ -20,6 +20,14 @@ export const userSlice = createSlice({
 		setInfoUser: (state, action: PayloadAction<{ name: string; email: string; id: string }>) => {
 			state.userInfo = action.payload;
 		},
+		login: (
+			state,
+			action: PayloadAction<{ userInfo: { name: string; email: string; id: string }; accessToken: string }>
+		) => {
+			state.token = action.payload.accessToken;
+			state.userInfo = action.payload.userInfo;
+			state.isAuth = true;
+		},
 
 		logout: (state) => {
 			state.userInfo = undefined;
@@ -29,4 +37,4 @@ export const userSlice = createSlice({
 	},
 });
 
-export const { setToken, setInfoUser, logout } = userSlice.actions;
+export const { setToken, setInfoUser, login, logout } = userSlice.actions;

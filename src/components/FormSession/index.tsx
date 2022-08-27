@@ -4,7 +4,7 @@ import { useNotification } from '../../hooks/useNotification';
 
 // REDUX
 import { useReduxDispatch } from '../../store';
-import { setInfoUser, setToken } from '../../store/slices/user/UserSlice';
+import { login } from '../../store/slices/user/UserSlice';
 
 import { FormUser } from '../../types/Form';
 import Form from '../FormElemets';
@@ -41,10 +41,10 @@ function FormSession() {
 				body: JSON.stringify({ email: inputsData.email, password: inputsData.password }),
 			});
 
+			// ! Debo validar la data
 			const data = await res.json();
 			notifySuccess('Login successfully');
-			dispach(setToken(data.accessToken as string));
-			dispach(setInfoUser(data.userInfo));
+			dispach(login(data));
 		} catch (err) {
 			console.error(err);
 		}
