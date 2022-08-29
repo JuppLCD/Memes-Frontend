@@ -5,8 +5,13 @@ export interface FormUser {
 	passwordConfirm: string;
 }
 
+export type TextMeme = { text: string; x: number; y: number; fs: number; id: string };
+
 export interface FormMeme {
 	name: string;
 	access: 'false' | 'true';
 	file: File | null;
+	image_url: string | undefined;
+	template: string | undefined;
+	texts: TextMeme[] | undefined;
 }

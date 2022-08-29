@@ -17,7 +17,7 @@ function InputRadioElement({ title, name, handleChange, check, inputs }: InputRa
 			<h4 className='mb-3'>{title}</h4>
 
 			{inputs.map((input, index) => (
-				<label className={index === inputs.length - 1 ? 'ml-5' : ''}>
+				<label className={index === inputs.length - 1 ? 'ml-5' : ''} key={input.value}>
 					<input
 						type='radio'
 						className='mr-3'

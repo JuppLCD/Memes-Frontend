@@ -9,10 +9,14 @@ import { FormMeme as FormMemeInterface } from '../../types/Form';
 import Form from './../FormElemets';
 
 function FormMeme() {
+	const initialTextMeme = { text: 'Your text here', x: 0, y: 0, fs: 16, id: `uuid` };
 	const initialState: FormMemeInterface = {
 		name: '',
 		access: 'false',
 		file: null,
+		image_url: undefined,
+		template: undefined,
+		texts: undefined,
 	};
 
 	const [inputsData, setInputsData] = useState<FormMemeInterface>(initialState);
@@ -23,13 +27,50 @@ function FormMeme() {
 	const { notifyError, notifyLoading, notifySuccess } = useNotification();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		let { name, value }: { name: string; value: any } = e.target;
+		const { name, value } = e.target;
 
 		setInputsData((prevState: FormMemeInterface) => {
-			if (name === 'file') {
-				if (e.target.files) {
-					value = e.target.files[0];
+			if (name === 'file' && e.target.files) {
+				const supportType = ['image/png', 'image/jpg', 'image/jpeg'];
+				const file = e.target.files[0];
+
+				if (!file) {
+					return prevState;
 				}
+
+				if (supportType.includes(file.type)) {
+					return {
+						...prevState,
+						file,
+						image_url: URL.createObjectURL(file),
+						texts: [{ ...initialTextMeme, id: `${new Date().getTime()}_id` }],
+					};
+				} else {
+					notifyError('Invalid file type, valid types are: png, jpg, jpeg');
+					return prevState;
+				}
+			}
+
+			if (name.includes('textMeme') && prevState.texts) {
+				type keysTextMeme = 'text' | 'x' | 'y' | 'fs';
+				const id_textMeme = name.split('-')[2];
+				const type_textMeme: keysTextMeme = name.split('-')[1] as keysTextMeme;
+
+				const i_textMeme = prevState.texts?.findIndex((textMeme) => textMeme.id === id_textMeme);
+
+				if (i_textMeme < 0) {
+					return prevState;
+				}
+				const updateTextMeme = { ...prevState.texts[i_textMeme] };
+				const newStateTexts = prevState.texts.filter((textMeme) => textMeme.id !== id_textMeme);
+
+				if (type_textMeme === 'text') {
+					updateTextMeme[type_textMeme] = value;
+				} else {
+					updateTextMeme[type_textMeme] = Number(value) < 0 ? 0 : Number(value);
+				}
+
+				return { ...prevState, texts: [...newStateTexts, updateTextMeme] };
 			}
 			return {
 				...prevState,
@@ -70,6 +111,15 @@ function FormMeme() {
 		}
 	};
 
+	const addNewTextMeme = () => {
+		setInputsData((prevState: FormMemeInterface) => {
+			return {
+				...prevState,
+				texts: [...(prevState.texts ?? []), { ...initialTextMeme, id: `${new Date().getTime()}_id` }],
+			};
+		});
+	};
+
 	return (
 		<Form onSubmit={handleSubmit} encType='multipart/form-data' title='Create Meme'>
 			<div className='mb-6'>
@@ -90,8 +140,66 @@ function FormMeme() {
 			<div>
 				<label>
 					<h4>Meme</h4>
-					<input type='file' name='file' accept='image/*' onChange={handleChange} />
+					<input type='file' name='file' accept='image/png, image/jpg, image/jpeg' onChange={handleChange} />
 				</label>
+			</div>
+
+			<div>
+				{inputsData.image_url && (
+					<>
+						<div className='relative'>
+							<img src={inputsData.image_url} alt='create meme' className='relative w-100' />
+							{inputsData.texts?.map((textMeme) => (
+								<div
+									key={textMeme.id}
+									className='absolute'
+									style={{ bottom: textMeme.y, left: textMeme.x, fontSize: textMeme.fs }}
+								>
+									{textMeme.text}
+								</div>
+							))}
+						</div>
+						<button onClick={addNewTextMeme}>Add text</button>
+						<ul>
+							{inputsData.texts?.map((textMeme) => (
+								<li key={textMeme.id}>
+									Texto 1:
+									<input
+										type='text'
+										name={`textMeme-text-${textMeme.id}`}
+										value={textMeme.text}
+										onChange={handleChange}
+										className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2'
+									/>
+									X:
+									<input
+										type='number'
+										name={`textMeme-x-${textMeme.id}`}
+										value={textMeme.x}
+										onChange={handleChange}
+										className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2'
+									/>
+									Y:
+									<input
+										type='number'
+										name={`textMeme-y-${textMeme.id}`}
+										value={textMeme.y}
+										onChange={handleChange}
+										className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2'
+									/>
+									Font-size:
+									<input
+										type='number'
+										name={`textMeme-fs-${textMeme.id}`}
+										value={textMeme.fs}
+										onChange={handleChange}
+										className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2'
+									/>
+								</li>
+							))}
+						</ul>
+					</>
+				)}
 			</div>
 
 			<button
