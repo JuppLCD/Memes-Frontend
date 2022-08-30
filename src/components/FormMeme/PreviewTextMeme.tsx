@@ -10,7 +10,7 @@ interface Props {
 function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme }: Props) {
 	return (
 		<>
-			<div className='relative'>
+			<div className='relative overflow-hidden'>
 				<img src={inputsData.image_url} alt='create meme' className='relative w-100' />
 				{inputsData.texts?.map((textMeme) => (
 					<div
@@ -24,10 +24,11 @@ function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme }: P
 			</div>
 			<button onClick={addNewTextMeme}>Add text</button>
 			<ul>
-				{inputsData.texts?.map((textMeme) => (
-					<li key={textMeme.id}>
+				{inputsData.texts?.map((textMeme, index) => (
+					<li key={textMeme.id} className='my-5'>
+						{index > 0 && <hr className='my-5' />}
 						<Form.InputLabel
-							label='Texto 1:'
+							label={`Texto ${index + 1}:`}
 							type='text'
 							name={`textMeme-text-${textMeme.id}`}
 							value={textMeme.text}

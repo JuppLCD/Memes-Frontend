@@ -48,21 +48,25 @@ export class ReducerActionClass {
 			const id_textMeme = name.split('-')[2];
 			const type_textMeme: keysTextMeme = name.split('-')[1] as keysTextMeme;
 
-			const i_textMeme = state.texts?.findIndex((textMeme) => textMeme.id === id_textMeme);
+			const index_textMeme = state.texts?.findIndex((textMeme) => textMeme.id === id_textMeme);
 
-			if (i_textMeme < 0) {
+			if (index_textMeme < 0) {
 				return state;
 			}
-			const updateTextMeme = { ...state.texts[i_textMeme] };
-			const newStateTexts = state.texts.filter((textMeme) => textMeme.id !== id_textMeme);
+			const updateTextMeme = { ...state.texts[index_textMeme] };
+			const newStateTexts = [...state.texts];
 
 			if (type_textMeme === 'text') {
 				updateTextMeme[type_textMeme] = value;
+			} else if (type_textMeme === 'fs') {
+				const minValueOfFontSize = 10;
+				updateTextMeme[type_textMeme] = Number(value) < minValueOfFontSize ? minValueOfFontSize : Number(value);
 			} else {
 				updateTextMeme[type_textMeme] = Number(value) < 0 ? 0 : Number(value);
 			}
+			newStateTexts[index_textMeme] = updateTextMeme;
 
-			return { ...state, texts: [...newStateTexts, updateTextMeme] };
+			return { ...state, texts: [...newStateTexts] };
 		}
 		return state;
 	}
