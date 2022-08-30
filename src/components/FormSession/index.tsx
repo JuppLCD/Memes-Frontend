@@ -1,5 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
+
 import { URL_API_BACKEND } from '../../config';
+
 import { useNotification } from '../../hooks/useNotification';
 
 // REDUX
@@ -7,7 +9,8 @@ import { useReduxDispatch } from '../../store';
 import { login } from '../../store/slices/user/UserSlice';
 
 import { FormUser } from '../../types/Form';
-import Form from '../FormElemets';
+
+import Form from '../Form';
 
 function FormSession() {
 	const initialState: FormUser = { email: 'ejemplo@gmail.com', name: 'user2', password: '123', passwordConfirm: '123' };

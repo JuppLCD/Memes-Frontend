@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 type Input = {
 	label: string;
 	value: string;
@@ -6,7 +8,7 @@ type Input = {
 interface InputRadioElementProps {
 	title: string;
 	name: string;
-	handleChange: any;
+	handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
 	check: any;
 	inputs: Input[];
 }
