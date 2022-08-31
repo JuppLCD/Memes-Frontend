@@ -10,7 +10,7 @@ function PrivateRoute({ children }: Props) {
 	const { isAuth } = useReduxSelector((state) => state.user);
 	const location = useLocation();
 
-	const pathLogin = '/login';
+	const pathLogin = '/session/login';
 
 	if (!isAuth) {
 		return <Navigate to={pathLogin} state={{ from: location }} replace />;

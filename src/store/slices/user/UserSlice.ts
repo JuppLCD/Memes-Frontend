@@ -17,13 +17,11 @@ export const userSlice = createSlice({
 			state.isAuth = true;
 		},
 
-		setInfoUser: (state, action: PayloadAction<{ name: string; email: string; id: string }>) => {
+		setInfoUser: (state, action: PayloadAction<{ name: string; id: string }>) => {
 			state.userInfo = action.payload;
 		},
-		login: (
-			state,
-			action: PayloadAction<{ userInfo: { name: string; email: string; id: string }; accessToken: string }>
-		) => {
+
+		login: (state, action: PayloadAction<{ userInfo: { name: string; id: string }; accessToken: string }>) => {
 			state.token = action.payload.accessToken;
 			state.userInfo = action.payload.userInfo;
 			state.isAuth = true;

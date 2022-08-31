@@ -1,11 +1,15 @@
+import { Link, Outlet } from 'react-router-dom';
 import Container from '../components/Container';
-import FormSession from '../components/FormSession';
 
 const SessionPage = () => {
 	return (
 		<main>
 			<Container>
-				<FormSession />
+				<div>
+					<Link to='/session/login'>Login</Link>
+					<Link to='/session/register'>Register</Link>
+				</div>
+				<Outlet />
 			</Container>
 		</main>
 	);

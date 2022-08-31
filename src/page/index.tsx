@@ -7,6 +7,7 @@ import HomePage from './HomePage';
 import UserPage from './UserPage';
 import PublicMemesPage from './PublicMemesPage';
 import SessionPage from './SessionPage';
+import FormSession from '../components/FormSession';
 
 function Page() {
 	return (
@@ -14,13 +15,17 @@ function Page() {
 			<Route path='/' element={<HomePage />} />
 
 			<Route
-				path='/login'
+				path='/session'
 				element={
 					<GuestRoute>
 						<SessionPage />
 					</GuestRoute>
 				}
-			/>
+			>
+				<Route index element={<FormSession path='login' />} />
+				<Route path='login' element={<FormSession path='login' />} />
+				<Route path='register' element={<FormSession path='register' />} />
+			</Route>
 
 			<Route
 				path='/public'

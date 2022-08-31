@@ -3,6 +3,7 @@ export interface FormUser {
 	name: string;
 	password: string;
 	passwordConfirm: string;
+	rememberMe: boolean;
 }
 
 export type TextMeme = { text: string; x: number; y: number; fs: number; id: string };
