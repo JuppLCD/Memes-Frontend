@@ -5,18 +5,31 @@ interface Props {
 	inputsData: FormMeme;
 	handleChangeTextMeme: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	addNewTextMeme: () => void;
+	imgMemeRef: any;
 }
 
-function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme }: Props) {
+function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, imgMemeRef }: Props) {
 	return (
 		<>
 			<div className='relative overflow-hidden'>
-				<img src={inputsData.image_url} alt='create meme' className='relative w-100' />
+				<img
+					src={inputsData.image_url}
+					alt='create meme'
+					ref={imgMemeRef}
+					className='relative w-100'
+					style={{ maxWidth: 500 }}
+				/>
 				{inputsData.texts?.map((textMeme) => (
 					<div
 						key={textMeme.id}
 						className='absolute'
-						style={{ bottom: textMeme.y, left: textMeme.x, fontSize: textMeme.fs }}
+						style={{
+							bottom: textMeme.y,
+							left: textMeme.x,
+							fontSize: textMeme.fs,
+							textAlign: 'center',
+							fontWeight: 'bold',
+						}}
 					>
 						{textMeme.text}
 					</div>

@@ -99,14 +99,14 @@ function FormSession({ path }: Props) {
 		<Form title={titleForm} onSubmit={handleSubmit}>
 			<div>
 				{path === 'login'
-					? inputsPropsLogin.map((infoInput) => (
-							<div className='mb-6'>
-								<Form.InputLabel key={infoInput.name} {...infoInput} onChange={handleChange} />
+					? inputsPropsLogin.map((infoInput, index) => (
+							<div className='mb-6' key={index}>
+								<Form.InputLabel {...infoInput} onChange={handleChange} />
 							</div>
 					  ))
-					: inputsPropsRegister.map((infoInput) => (
-							<div className='mb-6'>
-								<Form.InputLabel key={infoInput.name} {...infoInput} onChange={handleChange} />
+					: inputsPropsRegister.map((infoInput, index) => (
+							<div className='mb-6' key={index}>
+								<Form.InputLabel {...infoInput} onChange={handleChange} />
 							</div>
 					  ))}
 			</div>
