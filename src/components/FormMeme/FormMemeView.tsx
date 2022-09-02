@@ -13,6 +13,7 @@ interface Props {
 	handleChangeFile: (e: ChangeEvent<HTMLInputElement>) => void;
 	handleChangeTextMeme: (e: ChangeEvent<HTMLInputElement>) => void;
 	addNewTextMeme: () => void;
+	deleteTextMeme: (id: string) => void;
 	handleDownload: () => void;
 	imgMemeRef: any;
 }
@@ -24,6 +25,7 @@ function FormMemeView({
 	handleChangeFile,
 	handleChangeTextMeme,
 	addNewTextMeme,
+	deleteTextMeme,
 	imgMemeRef,
 	handleDownload,
 }: Props) {
@@ -56,6 +58,7 @@ function FormMemeView({
 						inputsData={inputsData}
 						handleChangeTextMeme={handleChangeTextMeme}
 						addNewTextMeme={addNewTextMeme}
+						deleteTextMeme={deleteTextMeme}
 						imgMemeRef={imgMemeRef}
 					/>
 				)}

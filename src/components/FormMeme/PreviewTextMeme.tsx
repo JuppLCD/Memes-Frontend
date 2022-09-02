@@ -5,10 +5,11 @@ interface Props {
 	inputsData: FormMeme;
 	handleChangeTextMeme: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	addNewTextMeme: () => void;
+	deleteTextMeme: (id: string) => void;
 	imgMemeRef: any;
 }
 
-function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, imgMemeRef }: Props) {
+function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, deleteTextMeme, imgMemeRef }: Props) {
 	return (
 		<>
 			<div className='relative overflow-hidden'>
@@ -29,17 +30,19 @@ function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, img
 							fontSize: textMeme.fs,
 							textAlign: 'center',
 							fontWeight: 'bold',
+							color: textMeme.color,
 						}}
 					>
 						{textMeme.text}
 					</div>
 				))}
 			</div>
-			<button onClick={addNewTextMeme}>Add text</button>
-			<ul>
+			<button type='button' onClick={addNewTextMeme}>
+				Add text
+			</button>
+			<ul className='flex flex-wrap'>
 				{inputsData.texts?.map((textMeme, index) => (
-					<li key={textMeme.id} className='my-5'>
-						{index > 0 && <hr className='my-5' />}
+					<li key={textMeme.id} className='m-5 '>
 						<Form.InputLabel
 							label={`Texto ${index + 1}:`}
 							type='text'
@@ -68,6 +71,22 @@ function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, img
 							value={textMeme.fs}
 							onChange={handleChangeTextMeme}
 						/>
+						<div className='flex'>
+							<Form.InputLabel
+								label='Color:'
+								type='color'
+								name={`textMeme-color-${textMeme.id}`}
+								value={textMeme.color}
+								onChange={handleChangeTextMeme}
+							/>
+							<button
+								type='button'
+								className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-0 ml-auto mt-2'
+								onClick={() => deleteTextMeme(textMeme.id)}
+							>
+								Delete text
+							</button>
+						</div>
 					</li>
 				))}
 			</ul>

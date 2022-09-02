@@ -6,7 +6,7 @@ export interface FormUser {
 	rememberMe: boolean;
 }
 
-export type TextMeme = { text: string; x: number; y: number; fs: number; id: string };
+export type TextMeme = { text: string; x: number; y: number; fs: number; id: string; color: string };
 
 export interface FormMeme {
 	name: string;

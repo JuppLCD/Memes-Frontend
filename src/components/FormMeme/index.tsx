@@ -17,6 +17,7 @@ function FormMeme() {
 		handleChangeFile,
 		handleChangeTextMeme,
 		addNewTextMeme,
+		deleteTextMeme,
 	} = useFormMemeReducer();
 
 	const UserState = useReduxSelector((state) => state.user);
@@ -57,7 +58,7 @@ function FormMeme() {
 
 		inputsData.texts?.forEach((text) => {
 			ctx.font = `bold ${text.fs}px Arial`;
-			ctx.fillStyle = 'white';
+			ctx.fillStyle = text.color;
 			ctx.fillText(text.text, text.x, maxHeightMemeImg - text.y);
 		});
 
@@ -132,6 +133,7 @@ function FormMeme() {
 			handleChangeFile={handleChangeFile}
 			handleChangeTextMeme={handleChangeTextMeme}
 			addNewTextMeme={addNewTextMeme}
+			deleteTextMeme={deleteTextMeme}
 			imgMemeRef={imgMemeRef}
 			handleDownload={handleDownload}
 		/>

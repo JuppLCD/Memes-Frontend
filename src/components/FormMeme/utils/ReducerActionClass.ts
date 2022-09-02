@@ -14,6 +14,14 @@ export class ReducerActionClass {
 			texts: [...(state.texts ?? []), action.payload],
 		};
 	}
+	static deleteTextMeme(state: FormMeme, action: { type: string; payload: any }): FormMeme {
+		if (state.texts === undefined) return state;
+		const updateText = state.texts?.filter((text) => text.id !== action.payload.id);
+		return {
+			...state,
+			texts: [...updateText],
+		};
+	}
 	static handleChangeFile(state: FormMeme, action: { type: string; payload: any }): FormMeme {
 		const target = action.payload.target;
 
@@ -44,7 +52,7 @@ export class ReducerActionClass {
 		const { name, value } = action.payload.target;
 
 		if (name.includes('textMeme') && state.texts) {
-			type keysTextMeme = 'text' | 'x' | 'y' | 'fs';
+			type keysTextMeme = 'text' | 'x' | 'y' | 'fs' | 'color';
 			const id_textMeme = name.split('-')[2];
 			const type_textMeme: keysTextMeme = name.split('-')[1] as keysTextMeme;
 
@@ -56,13 +64,13 @@ export class ReducerActionClass {
 			const updateTextMeme = { ...state.texts[index_textMeme] };
 			const newStateTexts = [...state.texts];
 
-			if (type_textMeme === 'text') {
-				updateTextMeme[type_textMeme] = value;
-			} else if (type_textMeme === 'fs') {
+			if (type_textMeme === 'fs') {
 				const minValueOfFontSize = 10;
 				updateTextMeme[type_textMeme] = Number(value) < minValueOfFontSize ? minValueOfFontSize : Number(value);
-			} else {
+			} else if (type_textMeme === 'x' || type_textMeme === 'y') {
 				updateTextMeme[type_textMeme] = Number(value) < 0 ? 0 : Number(value);
+			} else {
+				updateTextMeme[type_textMeme] = value;
 			}
 			newStateTexts[index_textMeme] = updateTextMeme;
 
