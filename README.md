@@ -1,3 +1,0 @@
-## Proyecto Meme utilizando React JS con TypeScript
-
-Proyecto en desarrollo.....
