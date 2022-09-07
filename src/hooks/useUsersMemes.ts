@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
-import { URL_API_BACKEND } from '../config';
-import { useReduxDispatch, useReduxSelector } from '../store';
-import { setPublicMemes, setUserMemes } from '../store/slices/meme/MemeSlice';
+
 import { useNotification } from './useNotification';
 
-import { Meme } from '../types/Meme';
+import { URL_API_BACKEND } from '../config';
+
+import { useReduxDispatch, useReduxSelector } from '../store';
+import { setPublicMemes, setUserMemes } from '../store/slices/meme/MemeSlice';
 
 export default function useUsersMemes(to: '/' | '/public') {
 	const state = useReduxSelector((state) => state);
@@ -29,11 +30,17 @@ export default function useUsersMemes(to: '/' | '/public') {
 						},
 					});
 
-					const data: Meme[] = await res.json();
-					if (to === '/') {
-						dispach(setUserMemes(data));
+					const data = await res.json();
+					if (res.status === 200) {
+						if (to === '/') {
+							dispach(setUserMemes(data));
+						} else {
+							dispach(setPublicMemes(data));
+						}
+					} else if (data.error) {
+						notifyError(data.message);
 					} else {
-						dispach(setPublicMemes(data));
+						notifyError('Error fetching data');
 					}
 				} catch (err) {
 					const msgError = `An error occurred while searching for ${to === '/' ? "the user's" : 'public'} memes`;
