@@ -13,6 +13,7 @@ import { FormMeme as FormMemeType } from '../../types/Form';
 import Form from '../Form';
 import PreviewTextMeme from './PreviewTextMeme';
 import { ButtonPinkToOrange, ButtonPurpleToBlue } from '../Buttons';
+import wrapText from './utils/wrapText';
 
 interface Props {
 	defaultState: FormMemeType;
@@ -65,9 +66,16 @@ function FormMeme({ defaultState }: Props) {
 		ctx.drawImage(img, 0, 0, maxWidthMemeImg, maxHeightMemeImg);
 
 		inputsData.texts?.forEach((text) => {
+			let maxWidthText = maxWidthMemeImg;
+
 			ctx.font = `bold ${text.fs}px Arial`;
 			ctx.fillStyle = text.color;
-			ctx.fillText(text.text, text.x, maxHeightMemeImg - text.y);
+			if (ctx.measureText(text.text).width + text.x > maxWidthMemeImg) {
+				const sobra = ctx.measureText(text.text).width + text.x - maxWidthMemeImg;
+				maxWidthText = ctx.measureText(text.text).width - sobra;
+			}
+			const lineHeight = text.fs / 0.666;
+			wrapText(ctx, text.text, text.x, maxHeightMemeImg - text.y, maxWidthText, lineHeight);
 		});
 
 		return canvas;

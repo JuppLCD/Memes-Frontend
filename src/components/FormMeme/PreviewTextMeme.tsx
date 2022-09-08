@@ -12,7 +12,7 @@ interface Props {
 function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, deleteTextMeme, imgMemeRef }: Props) {
 	return (
 		<>
-			<div className='relative overflow-hidden'>
+			<div className='relative overflow-hidden mx-auto' style={{ maxWidth: 500 }}>
 				<img
 					src={inputsData.image_url}
 					alt='create meme'
@@ -28,8 +28,9 @@ function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, del
 						style={{
 							bottom: textMeme.y,
 							left: textMeme.x,
+							// transform: `translate(${textMeme.x}px, -${Math.floor(textMeme.fs / 0.6666) + textMeme.y}px)`,
 							fontSize: textMeme.fs,
-							textAlign: 'center',
+							textAlign: 'left',
 							fontWeight: 'bold',
 							color: textMeme.color,
 						}}
