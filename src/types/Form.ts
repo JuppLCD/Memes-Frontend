@@ -13,6 +13,5 @@ export interface FormMeme {
 	access: 'false' | 'true';
 	file: File | null;
 	image_url: string | undefined;
-	template: string | undefined;
 	texts: TextMeme[] | undefined;
 }

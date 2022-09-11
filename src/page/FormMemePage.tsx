@@ -12,7 +12,6 @@ const initialState: FormMemeType = {
 	access: 'false',
 	file: null,
 	image_url: undefined,
-	template: undefined,
 	texts: undefined,
 };
 

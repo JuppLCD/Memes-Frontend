@@ -1,3 +1,5 @@
+import { Meme } from '../Meme';
+
 export interface UserState {
 	isAuth: boolean;
 	token: string | null;
@@ -5,5 +7,13 @@ export interface UserState {
 	userInfo?: {
 		name: string;
 		id: string;
+	};
+}
+
+export interface MemeState {
+	userMemes?: Meme[];
+	publicMemes?: {
+		expireTime: number;
+		memes: Meme[];
 	};
 }

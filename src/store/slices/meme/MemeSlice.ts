@@ -1,14 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Meme } from '../../../types/Meme';
-
-export interface MemeState {
-	userMemes?: Meme[];
-	publicMemes?: {
-		expireTime: number;
-		memes: Meme[];
-	};
-}
+import { MemeState } from '../../../types/States';
 
 const initialState: MemeState = {
 	userMemes: undefined,

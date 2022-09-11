@@ -48,28 +48,28 @@ function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, del
 						<Form.InputLabel
 							label={`Texto ${index + 1}:`}
 							type='text'
-							name={`textMeme-text-${textMeme.id}`}
+							name={`textMeme__text__${textMeme.id}`}
 							value={textMeme.text}
 							onChange={handleChangeTextMeme}
 						/>
 						<Form.InputLabel
 							label='X:'
 							type='number'
-							name={`textMeme-x-${textMeme.id}`}
+							name={`textMeme__x__${textMeme.id}`}
 							value={textMeme.x}
 							onChange={handleChangeTextMeme}
 						/>
 						<Form.InputLabel
 							label='Y:'
 							type='number'
-							name={`textMeme-y-${textMeme.id}`}
+							name={`textMeme__y__${textMeme.id}`}
 							value={textMeme.y}
 							onChange={handleChangeTextMeme}
 						/>
 						<Form.InputLabel
 							label='Font-size:'
 							type='number'
-							name={`textMeme-fs-${textMeme.id}`}
+							name={`textMeme__fs__${textMeme.id}`}
 							value={textMeme.fs}
 							onChange={handleChangeTextMeme}
 						/>
@@ -77,7 +77,7 @@ function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, del
 							<Form.InputLabel
 								label='Color:'
 								type='color'
-								name={`textMeme-color-${textMeme.id}`}
+								name={`textMeme__color__${textMeme.id}`}
 								value={textMeme.color}
 								onChange={handleChangeTextMeme}
 							/>

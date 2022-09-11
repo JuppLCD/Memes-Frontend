@@ -1,6 +1,6 @@
 import { FormEvent, useRef } from 'react';
 
-import { URL_API_BACKEND } from '../../config';
+import { API_MEMES_TEMPLATE_IMG, URL_API_BACKEND } from '../../config';
 
 import { useReduxDispatch, useReduxSelector } from '../../store';
 import { userCreteMeme } from '../../store/slices/meme/MemeSlice';
@@ -13,7 +13,7 @@ import { FormMeme as FormMemeType } from '../../types/Form';
 import Form from '../Form';
 import PreviewTextMeme from './PreviewTextMeme';
 import { ButtonPinkToOrange, ButtonPurpleToBlue } from '../Buttons';
-import wrapText from './utils/wrapText';
+import { canvasImgMeme } from './utils/canvas';
 
 interface Props {
 	defaultState: FormMemeType;
@@ -34,57 +34,16 @@ function FormMeme({ defaultState }: Props) {
 
 	const { notifyError, notifyLoading, notifySuccess } = useNotification();
 
-	const imgMemeRef = useRef();
-
-	const canvasImgMeme = () => {
-		if (imgMemeRef.current === undefined) return;
-
-		// IMG
-		imgMemeRef.current as HTMLImageElement;
-		const img = imgMemeRef.current;
-
-		const { naturalWidth, naturalHeight } = img;
-
-		const proporcion = naturalHeight / naturalWidth;
-
-		const maxWidthMemeImg = 500;
-		const maxHeightMemeImg = proporcion * maxWidthMemeImg;
-
-		// CANVAS
-		const canvas = document.createElement('canvas');
-
-		canvas.width = maxWidthMemeImg;
-		canvas.height = maxHeightMemeImg;
-
-		const ctx = canvas.getContext('2d');
-
-		if (ctx === null) {
-			// ! Tirar error
-			return;
-		}
-
-		ctx.drawImage(img, 0, 0, maxWidthMemeImg, maxHeightMemeImg);
-
-		inputsData.texts?.forEach((text) => {
-			let maxWidthText = maxWidthMemeImg;
-
-			ctx.font = `bold ${text.fs}px Arial`;
-			ctx.fillStyle = text.color;
-			if (ctx.measureText(text.text).width + text.x > maxWidthMemeImg) {
-				const sobra = ctx.measureText(text.text).width + text.x - maxWidthMemeImg;
-				maxWidthText = ctx.measureText(text.text).width - sobra;
-			}
-			const lineHeight = text.fs / 0.666;
-			wrapText(ctx, text.text, text.x, maxHeightMemeImg - text.y, maxWidthText, lineHeight);
-		});
-
-		return canvas;
-	};
+	const imgMemeRef = useRef<HTMLImageElement>();
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const canvas = canvasImgMeme();
+		if (!(inputsData.name && inputsData.access)) {
+			notifyError('All fields are required');
+			return;
+		}
+		const canvas = canvasImgMeme(inputsData, imgMemeRef);
 
 		if (!canvas) {
 			// ! TIRRAR UN ERROR
@@ -98,39 +57,42 @@ function FormMeme({ defaultState }: Props) {
 				return;
 			}
 
-			if (inputsData.name && inputsData.access) {
-				const formData = new FormData();
-				formData.append('name', inputsData.name);
-				// formData.append('file', inputsData.file as File);
-				formData.append('file', Blob, inputsData.file?.name || inputsData.name + '.png');
-				formData.append('access', inputsData.access);
+			const formData = new FormData();
+			formData.append('name', inputsData.name);
+			formData.append('file', Blob, inputsData.file?.name || inputsData.name + '.png');
+			formData.append('access', inputsData.access);
 
-				notifyLoading();
-				try {
-					const res = await fetch(URL_API_BACKEND + '/meme/create', {
-						method: 'POST',
-						headers: {
-							mode: 'no-cors',
-							authorization: UserState.token as string,
-						},
-						body: formData,
-					});
-					// ! Se debe hacer validaciones de lo que entra
-					const data = await res.json();
-					dispatch(userCreteMeme(data));
-					notifySuccess('Meme created successfully');
-				} catch (err) {
-					console.error(err);
-					notifyError('Error to create meme');
-				}
-			} else {
-				notifyError('All fields are required');
+			if (inputsData.image_url?.includes(API_MEMES_TEMPLATE_IMG)) {
+				const template = {
+					url: inputsData.image_url,
+					texts: inputsData.texts,
+				};
+				formData.append('template', JSON.stringify(template));
+			}
+
+			notifyLoading();
+			try {
+				const res = await fetch(URL_API_BACKEND + '/meme/create', {
+					method: 'POST',
+					headers: {
+						mode: 'no-cors',
+						authorization: UserState.token as string,
+					},
+					body: formData,
+				});
+				// ! Se debe hacer validaciones de lo que entra
+				const data = await res.json();
+				dispatch(userCreteMeme(data));
+				notifySuccess('Meme created successfully');
+			} catch (err) {
+				console.error(err);
+				notifyError('Error to create meme');
 			}
 		});
 	};
 
 	const handleDownload = () => {
-		const canvas = canvasImgMeme();
+		const canvas = canvasImgMeme(inputsData, imgMemeRef);
 		if (!canvas) return;
 
 		const link = document.createElement('a');

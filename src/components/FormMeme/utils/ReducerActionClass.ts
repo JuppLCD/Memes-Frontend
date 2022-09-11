@@ -53,8 +53,8 @@ export class ReducerActionClass {
 
 		if (name.includes('textMeme') && state.texts) {
 			type keysTextMeme = 'text' | 'x' | 'y' | 'fs' | 'color';
-			const id_textMeme = name.split('-')[2];
-			const type_textMeme: keysTextMeme = name.split('-')[1] as keysTextMeme;
+			const id_textMeme = name.split('__')[2];
+			const type_textMeme: keysTextMeme = name.split('__')[1] as keysTextMeme;
 
 			const index_textMeme = state.texts?.findIndex((textMeme) => textMeme.id === id_textMeme);
 

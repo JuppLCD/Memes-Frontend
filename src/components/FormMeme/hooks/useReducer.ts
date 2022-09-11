@@ -1,4 +1,5 @@
 import { ChangeEvent, useEffect, useReducer } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import { FormMeme } from '../../../types/Form';
 import {
@@ -51,7 +52,7 @@ function useFormMemeReducer(defaultState: FormMeme) {
 	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) =>
 		dispatch({
 			type: HANDLE_CHANGE_FILE,
-			payload: { target: e.target, textMeme: { ...initialTextMeme, id: `${new Date().getTime()}_id` } },
+			payload: { target: e.target, textMeme: { ...initialTextMeme, id: uuidv4() } },
 		});
 	const handleChangeTextMeme = (e: ChangeEvent<HTMLInputElement>) =>
 		dispatch({ type: HANDLE_CHANGE_TEXT_MEME, payload: { target: e.target } });
@@ -59,7 +60,7 @@ function useFormMemeReducer(defaultState: FormMeme) {
 	const addNewTextMeme = () => {
 		dispatch({
 			type: ADD_NEW_TEXT_MEME,
-			payload: { ...initialTextMeme, id: `${new Date().getTime()}_id` },
+			payload: { ...initialTextMeme, id: uuidv4() },
 		});
 	};
 
