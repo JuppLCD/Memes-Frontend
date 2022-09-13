@@ -6,6 +6,7 @@ import { useNotification } from '../../hooks/useNotification';
 
 import { useReduxDispatch, useReduxSelector } from '../../store';
 import { userDeleteMeme } from '../../store/slices/meme/MemeSlice';
+import { Link } from 'react-router-dom';
 
 interface MemeProps {
 	meme: MemeType;
@@ -61,13 +62,16 @@ function OptionsMeme({ meme, token }: OptionsMemeProps) {
 			>
 				Rename
 			</button>
-			<button
-				type='button'
-				onClick={() => console.log('Click, edit Meme in', meme.name)}
-				className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2 mr-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900'
-			>
-				Edit
-			</button>
+
+			{meme.template !== null && (
+				<Link
+					to={`/meme/edit/${meme.uuid}`}
+					className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2 mr-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900'
+				>
+					Edit
+				</Link>
+			)}
+
 			<button
 				type='button'
 				onClick={deleteMemeHandler}

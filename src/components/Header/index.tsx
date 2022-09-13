@@ -31,6 +31,16 @@ function Header() {
 							<>
 								<li>
 									<Link
+										to='/meme/create'
+										aria-label='Create meme view'
+										title='Create meme view'
+										className='font-medium tracking-wide text-white transition-colors duration-200 hover:text-deep-purple-accent-400'
+									>
+										Create meme
+									</Link>
+								</li>
+								<li>
+									<Link
 										to='/public'
 										aria-label='Public memes view'
 										title='Public memes view'
@@ -127,6 +137,16 @@ function Header() {
 										<ul className='space-y-4'>
 											{userState.isAuth ? (
 												<>
+													<li>
+														<Link
+															to='/meme/create'
+															aria-label='Create meme view'
+															title='Create meme view'
+															className='font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400'
+														>
+															Create meme
+														</Link>
+													</li>
 													<li>
 														<Link
 															to='/public'

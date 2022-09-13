@@ -16,7 +16,7 @@ export class ReducerActionClass {
 	}
 	static deleteTextMeme(state: FormMeme, action: { type: string; payload: any }): FormMeme {
 		if (state.texts === undefined) return state;
-		const updateText = state.texts?.filter((text) => text.id !== action.payload.id);
+		const updateText = state.texts?.filter((text) => text.uuid !== action.payload.uuid);
 		return {
 			...state,
 			texts: [...updateText],
@@ -56,7 +56,7 @@ export class ReducerActionClass {
 			const id_textMeme = name.split('__')[2];
 			const type_textMeme: keysTextMeme = name.split('__')[1] as keysTextMeme;
 
-			const index_textMeme = state.texts?.findIndex((textMeme) => textMeme.id === id_textMeme);
+			const index_textMeme = state.texts?.findIndex((textMeme) => textMeme.uuid === id_textMeme);
 
 			if (index_textMeme < 0) {
 				return state;

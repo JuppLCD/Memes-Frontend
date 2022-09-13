@@ -17,9 +17,10 @@ import { canvasImgMeme } from './utils/canvas';
 
 interface Props {
 	defaultState: FormMemeType;
+	idMemeToEdit?: string;
 }
 
-function FormMeme({ defaultState }: Props) {
+function FormMeme({ defaultState, idMemeToEdit }: Props) {
 	const {
 		state: inputsData,
 		handleChangeInput,
@@ -72,6 +73,7 @@ function FormMeme({ defaultState }: Props) {
 
 			notifyLoading();
 			try {
+				// TODO: Utilizar el idMemeToEdit para saber cuando se esta editando y cambiar la url
 				const res = await fetch(URL_API_BACKEND + '/meme/create', {
 					method: 'POST',
 					headers: {
@@ -82,8 +84,12 @@ function FormMeme({ defaultState }: Props) {
 				});
 				// ! Se debe hacer validaciones de lo que entra
 				const data = await res.json();
-				dispatch(userCreteMeme(data));
-				notifySuccess('Meme created successfully');
+				if (res.ok) {
+					dispatch(userCreteMeme(data));
+					notifySuccess('Meme created successfully');
+				} else {
+					throw Error(data);
+				}
 			} catch (err) {
 				console.error(err);
 				notifyError('Error to create meme');

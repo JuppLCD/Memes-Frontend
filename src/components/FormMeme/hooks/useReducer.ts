@@ -38,7 +38,7 @@ const reducer = (state: FormMeme, action: { type: string; payload: any }) => {
 };
 
 function useFormMemeReducer(defaultState: FormMeme) {
-	const initialTextMeme = { text: 'Your text here', x: 0, y: 0, fs: 16, id: `uuid`, color: '#000000' };
+	const initialTextMeme = { text: 'Your text here', x: 0, y: 0, fs: 16, uuid: `uuid`, color: '#000000' };
 
 	const [state, dispatch] = useReducer(reducer, defaultState);
 
@@ -52,7 +52,7 @@ function useFormMemeReducer(defaultState: FormMeme) {
 	const handleChangeFile = (e: ChangeEvent<HTMLInputElement>) =>
 		dispatch({
 			type: HANDLE_CHANGE_FILE,
-			payload: { target: e.target, textMeme: { ...initialTextMeme, id: uuidv4() } },
+			payload: { target: e.target, textMeme: { ...initialTextMeme, uuid: uuidv4() } },
 		});
 	const handleChangeTextMeme = (e: ChangeEvent<HTMLInputElement>) =>
 		dispatch({ type: HANDLE_CHANGE_TEXT_MEME, payload: { target: e.target } });
@@ -60,14 +60,14 @@ function useFormMemeReducer(defaultState: FormMeme) {
 	const addNewTextMeme = () => {
 		dispatch({
 			type: ADD_NEW_TEXT_MEME,
-			payload: { ...initialTextMeme, id: uuidv4() },
+			payload: { ...initialTextMeme, uuid: uuidv4() },
 		});
 	};
 
-	const deleteTextMeme = (id: string) => {
+	const deleteTextMeme = (uuid: string) => {
 		dispatch({
 			type: DELETE_TEXT_MEME,
-			payload: { id },
+			payload: { uuid },
 		});
 	};
 

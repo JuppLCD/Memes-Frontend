@@ -5,7 +5,7 @@ interface Props {
 	inputsData: FormMeme;
 	handleChangeTextMeme: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	addNewTextMeme: () => void;
-	deleteTextMeme: (id: string) => void;
+	deleteTextMeme: (uuid: string) => void;
 	imgMemeRef: any;
 }
 
@@ -23,7 +23,7 @@ function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, del
 				/>
 				{inputsData.texts?.map((textMeme) => (
 					<div
-						key={textMeme.id}
+						key={textMeme.uuid}
 						className='absolute'
 						style={{
 							bottom: textMeme.y,
@@ -44,32 +44,32 @@ function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, del
 			</button>
 			<ul className='flex flex-wrap'>
 				{inputsData.texts?.map((textMeme, index) => (
-					<li key={textMeme.id} className='m-5 '>
+					<li key={textMeme.uuid} className='m-5 '>
 						<Form.InputLabel
 							label={`Texto ${index + 1}:`}
 							type='text'
-							name={`textMeme__text__${textMeme.id}`}
+							name={`textMeme__text__${textMeme.uuid}`}
 							value={textMeme.text}
 							onChange={handleChangeTextMeme}
 						/>
 						<Form.InputLabel
 							label='X:'
 							type='number'
-							name={`textMeme__x__${textMeme.id}`}
+							name={`textMeme__x__${textMeme.uuid}`}
 							value={textMeme.x}
 							onChange={handleChangeTextMeme}
 						/>
 						<Form.InputLabel
 							label='Y:'
 							type='number'
-							name={`textMeme__y__${textMeme.id}`}
+							name={`textMeme__y__${textMeme.uuid}`}
 							value={textMeme.y}
 							onChange={handleChangeTextMeme}
 						/>
 						<Form.InputLabel
 							label='Font-size:'
 							type='number'
-							name={`textMeme__fs__${textMeme.id}`}
+							name={`textMeme__fs__${textMeme.uuid}`}
 							value={textMeme.fs}
 							onChange={handleChangeTextMeme}
 						/>
@@ -77,14 +77,14 @@ function PreviewTextMeme({ inputsData, handleChangeTextMeme, addNewTextMeme, del
 							<Form.InputLabel
 								label='Color:'
 								type='color'
-								name={`textMeme__color__${textMeme.id}`}
+								name={`textMeme__color__${textMeme.uuid}`}
 								value={textMeme.color}
 								onChange={handleChangeTextMeme}
 							/>
 							<button
 								type='button'
 								className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-0 ml-auto mt-2'
-								onClick={() => deleteTextMeme(textMeme.id)}
+								onClick={() => deleteTextMeme(textMeme.uuid)}
 							>
 								Delete text
 							</button>

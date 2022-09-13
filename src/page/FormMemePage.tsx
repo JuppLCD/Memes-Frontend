@@ -50,7 +50,14 @@ function FormMemePage() {
 					},
 				});
 				const data = await res.json();
-				console.log(data);
+
+				setInputsDataDefoult({
+					name: data[0].name,
+					access: `${data[0].access as 'true' | 'false'}`,
+					file: null,
+					image_url: data[0].template,
+					texts: data[0].texts,
+				});
 			})();
 		} else if (name_img && format) {
 			setInputsDataDefoult((prevInputsData) => ({
@@ -63,7 +70,7 @@ function FormMemePage() {
 	return (
 		<main>
 			<Container>
-				<FormMeme defaultState={inputsDataDefoult} />
+				<FormMeme defaultState={inputsDataDefoult} idMemeToEdit={meme_id} />
 			</Container>
 		</main>
 	);
