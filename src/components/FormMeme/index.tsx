@@ -88,7 +88,7 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 					dispatch(userCreteMeme(data));
 					notifySuccess('Meme created successfully');
 				} else {
-					throw Error(data);
+					throw new Error(data);
 				}
 			} catch (err) {
 				console.error(err);
