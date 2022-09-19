@@ -47,7 +47,17 @@ export const MemesBackendAPI = createApi({
 			invalidatesTags: ['UserMeme', 'PublicMeme'],
 			extraOptions: { maxRetries: 0 },
 		}),
+
+		deleteMeme: builder.mutation<null, string>({
+			query: (memeId: string) => ({
+				url: `/delete/${memeId}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: ['UserMeme', 'PublicMeme'],
+			extraOptions: { maxRetries: 0 },
+		}),
 	}),
 });
 
-export const { useGetPublicMemesQuery, useGetUserMemesQuery, useNewMemeMutation } = MemesBackendAPI;
+export const { useGetPublicMemesQuery, useGetUserMemesQuery, useNewMemeMutation, useDeleteMemeMutation } =
+	MemesBackendAPI;

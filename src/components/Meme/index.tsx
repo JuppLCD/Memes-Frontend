@@ -1,12 +1,12 @@
-import { Meme as MemeType } from '../../types/Meme';
-
-import { URL_API_BACKEND, URL_BACKEND } from '../../config';
-
+import { useReduxSelector } from '../../store';
+import { useDeleteMemeMutation } from '../../services/MemesBackend';
 import { useNotification } from '../../hooks/useNotification';
 
-import { useReduxDispatch, useReduxSelector } from '../../store';
-import { userDeleteMeme } from '../../store/slices/meme/MemeSlice';
+import { URL_BACKEND } from '../../config';
+
 import { Link } from 'react-router-dom';
+
+import type { Meme as MemeType } from '../../types/Meme';
 
 interface MemeProps {
 	meme: MemeType;
@@ -27,30 +27,26 @@ function Meme({ meme }: MemeProps) {
 					className='mx-auto h-full object-cover object-center w-full'
 				/>
 			</div>
-			{isCreator && <OptionsMeme meme={meme} token={userState.token as string} />}
+			{isCreator && <OptionsMeme meme={meme} />}
 		</div>
 	);
 }
 
 interface OptionsMemeProps {
 	meme: MemeType;
-	token: string;
 }
-function OptionsMeme({ meme, token }: OptionsMemeProps) {
+function OptionsMeme({ meme }: OptionsMemeProps) {
 	const { notifySuccess, notifyError, notifyLoading } = useNotification();
-	const dispatch = useReduxDispatch();
+	const [deleteMeme, { isError }] = useDeleteMemeMutation();
 
 	const deleteMemeHandler = async () => {
 		notifyLoading('Deleting');
-		const res = await fetch(`${URL_API_BACKEND}/meme/delete/${meme.uuid}`, {
-			method: 'DELETE',
-			headers: { mode: 'no-cors', authorization: token },
-		});
-		if (res.status === 200) {
-			dispatch(userDeleteMeme(meme));
-			notifySuccess(`${meme.name} - Deleting  successfully`);
-		} else {
+		await deleteMeme(meme.uuid).unwrap();
+
+		if (isError) {
 			notifyError(`Error deleting meme "${meme.name}"`);
+		} else {
+			notifySuccess(`${meme.name} - Deleting  successfully`);
 		}
 	};
 	return (
