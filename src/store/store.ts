@@ -6,6 +6,7 @@ import { memeSlice } from './slices/meme/MemeSlice';
 
 // Services
 import { MemesTemplateAPI } from '../services/MemesTemplate';
+import { MemesBackendAPI } from '../services/MemesBackend';
 
 export const store = configureStore({
 	reducer: {
@@ -13,9 +14,11 @@ export const store = configureStore({
 		memes: memeSlice.reducer,
 
 		[MemesTemplateAPI.reducerPath]: MemesTemplateAPI.reducer,
+		[MemesBackendAPI.reducerPath]: MemesBackendAPI.reducer,
 	},
 
-	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(MemesTemplateAPI.middleware),
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware().concat(MemesTemplateAPI.middleware, MemesBackendAPI.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
