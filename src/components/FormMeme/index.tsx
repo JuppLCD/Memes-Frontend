@@ -1,19 +1,18 @@
-import { FormEvent, useRef } from 'react';
-
-import { API_MEMES_TEMPLATE_IMG, URL_API_BACKEND } from '../../config';
-
-import { useReduxDispatch, useReduxSelector } from '../../store';
-import { userCreteMeme } from '../../store/slices/meme/MemeSlice';
-
+import { useRef } from 'react';
 import { useFormMemeReducer } from './hooks/useReducer';
 import { useNotification } from '../../hooks/useNotification';
+import { useNewMemeMutation } from '../../services/MemesBackend';
 
-import { FormMeme as FormMemeType } from '../../types/Form';
+import { API_MEMES_TEMPLATE_IMG } from '../../config';
 
 import Form from '../Form';
 import PreviewTextMeme from './PreviewTextMeme';
 import { ButtonPinkToOrange, ButtonPurpleToBlue } from '../Buttons';
+
 import { canvasImgMeme } from './utils/canvas';
+
+import type { FormMeme as FormMemeType } from '../../types/Form';
+import type { FormEvent } from 'react';
 
 interface Props {
 	defaultState: FormMemeType;
@@ -30,10 +29,9 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 		deleteTextMeme,
 	} = useFormMemeReducer(defaultState);
 
-	const UserState = useReduxSelector((state) => state.user);
-	const dispatch = useReduxDispatch();
+	const [createMeme, { isError, isLoading }] = useNewMemeMutation();
 
-	const { notifyError, notifyLoading, notifySuccess } = useNotification();
+	const { notifyError, notifySuccess } = useNotification();
 
 	const imgMemeRef = useRef<HTMLImageElement>();
 
@@ -71,25 +69,18 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 				formData.append('template', JSON.stringify(template));
 			}
 
-			notifyLoading();
 			try {
 				// TODO: Utilizar el idMemeToEdit para saber cuando se esta editando y cambiar la url
-				const res = await fetch(URL_API_BACKEND + '/meme/create', {
-					method: 'POST',
-					headers: {
-						mode: 'no-cors',
-						authorization: UserState.token as string,
-					},
-					body: formData,
-				});
-				// ! Se debe hacer validaciones de lo que entra
-				const data = await res.json();
-				if (res.ok) {
-					dispatch(userCreteMeme(data));
-					notifySuccess('Meme created successfully');
+
+				if (idMemeToEdit) {
 				} else {
-					throw new Error(data);
+					await createMeme(formData).unwrap();
 				}
+
+				if (isError) {
+					throw new Error('Error to create meme');
+				}
+				notifySuccess('Meme created successfully');
 			} catch (err) {
 				console.error(err);
 				notifyError('Error to create meme');
@@ -145,7 +136,7 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 			</div>
 			<div className='mt-3'>
 				<ButtonPurpleToBlue disabled={inputsData.image_url === undefined} type='submit'>
-					Save
+					{isLoading ? 'Loading...' : 'Save'}
 				</ButtonPurpleToBlue>
 
 				<ButtonPinkToOrange type='button' disabled={inputsData.image_url === undefined} onClick={handleDownload}>
