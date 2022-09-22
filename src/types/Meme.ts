@@ -1,3 +1,11 @@
+type Texts = {
+	color: string;
+	fs: number;
+	text: string;
+	uuid: string;
+	x: number;
+	y: number;
+};
 export interface Meme {
 	access: boolean;
 	name: string;
@@ -9,13 +17,7 @@ export interface Meme {
 		| null
 		| {
 				url: string;
-				texts: {
-					color: string;
-					fs: number;
-					text: string;
-					uuid: string;
-					x: number;
-					y: number;
-				}[];
+				texts: Texts[];
 		  };
+	texts?: Texts[];
 }

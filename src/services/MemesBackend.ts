@@ -38,6 +38,12 @@ export const MemesBackendAPI = createApi({
 			providesTags: ['PublicMeme'],
 		}),
 
+		getMemeById: builder.mutation<Meme[], string>({
+			query: (memeId: string) => ({
+				url: `/${memeId}`,
+				method: 'GET',
+			}),
+		}),
 		newMeme: builder.mutation<Meme, FormData>({
 			query: (newMeme: FormData) => ({
 				url: '/create',
@@ -47,7 +53,6 @@ export const MemesBackendAPI = createApi({
 			invalidatesTags: ['UserMeme', 'PublicMeme'],
 			extraOptions: { maxRetries: 0 },
 		}),
-
 		deleteMeme: builder.mutation<null, string>({
 			query: (memeId: string) => ({
 				url: `/delete/${memeId}`,
@@ -56,8 +61,23 @@ export const MemesBackendAPI = createApi({
 			invalidatesTags: ['UserMeme', 'PublicMeme'],
 			extraOptions: { maxRetries: 0 },
 		}),
+		editNameMeme: builder.mutation<Meme, { memeId: string; name: string }>({
+			query: ({ memeId, name }) => ({
+				url: `/rename/${memeId}`,
+				method: 'PUT',
+				body: { name },
+			}),
+			invalidatesTags: ['UserMeme', 'PublicMeme'],
+			extraOptions: { maxRetries: 0 },
+		}),
 	}),
 });
 
-export const { useGetPublicMemesQuery, useGetUserMemesQuery, useNewMemeMutation, useDeleteMemeMutation } =
-	MemesBackendAPI;
+export const {
+	useGetPublicMemesQuery,
+	useGetUserMemesQuery,
+	useGetMemeByIdMutation,
+	useNewMemeMutation,
+	useDeleteMemeMutation,
+	useEditNameMemeMutation,
+} = MemesBackendAPI;

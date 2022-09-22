@@ -4,7 +4,6 @@ import { LOCAL_STORAGE_KEY_TOKEN } from '../../config';
 import { useLocalStorage } from '../../hooks/useStorage';
 
 import { useReduxDispatch, useReduxSelector } from '../../store';
-import { logoutUser } from '../../store/slices/meme/MemeSlice';
 import { logout } from '../../store/slices/user/UserSlice';
 
 function Header() {
@@ -16,7 +15,6 @@ function Header() {
 
 	const logoutClickFunction = () => {
 		dispach(logout());
-		dispach(logoutUser());
 		removeAccessToken();
 	};
 	return (

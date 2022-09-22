@@ -1,4 +1,5 @@
 import { Toaster } from 'react-hot-toast';
+import ModalRenameMeme from '../components/Modal';
 
 import Header from '../components/Header';
 import Page from '../page';
@@ -11,6 +12,7 @@ function Layout() {
 			<footer>
 				<p>FOOTER</p>
 			</footer>
+			<ModalRenameMeme />;
 			<Toaster
 				position='top-center'
 				reverseOrder={true}

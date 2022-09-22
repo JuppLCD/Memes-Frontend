@@ -1,5 +1,3 @@
-import { Meme } from '../Meme';
-
 export interface UserState {
 	isAuth: boolean;
 	token: string | null;
@@ -11,9 +9,9 @@ export interface UserState {
 }
 
 export interface MemeState {
-	userMemes?: Meme[];
-	publicMemes?: {
-		expireTime: number;
-		memes: Meme[];
+	renameMemeModal: {
+		show: boolean;
+		name: string;
+		memeId: string;
 	};
 }

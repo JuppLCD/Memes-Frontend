@@ -1,6 +1,8 @@
-import { useReduxSelector } from '../../store';
 import { useDeleteMemeMutation } from '../../services/MemesBackend';
 import { useNotification } from '../../hooks/useNotification';
+import { useReduxDispatch, useReduxSelector } from '../../store';
+
+import { openRenameMemeModal } from '../../store/slices/meme/MemeSlice';
 
 import { URL_BACKEND } from '../../config';
 
@@ -39,6 +41,9 @@ function OptionsMeme({ meme }: OptionsMemeProps) {
 	const { notifySuccess, notifyError, notifyLoading } = useNotification();
 	const [deleteMeme, { isError }] = useDeleteMemeMutation();
 
+	const dispatch = useReduxDispatch();
+	const openModal = () => dispatch(openRenameMemeModal(meme));
+
 	const deleteMemeHandler = async () => {
 		notifyLoading('Deleting');
 		await deleteMeme(meme.uuid).unwrap();
@@ -53,7 +58,7 @@ function OptionsMeme({ meme }: OptionsMemeProps) {
 		<div className='mt-1'>
 			<button
 				type='button'
-				onClick={() => console.log('Click, edit Name in', meme.name)}
+				onClick={openModal}
 				className='focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-3 py-2 mr-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900'
 			>
 				Rename
