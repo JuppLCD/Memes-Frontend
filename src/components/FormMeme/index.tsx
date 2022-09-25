@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useFormMemeReducer } from './hooks/useReducer';
 import { useNotification } from '../../hooks/useNotification';
-import { useNewMemeMutation } from '../../services/MemesBackend';
+import { useEditMemeMutation, useNewMemeMutation } from '../../services/MemesBackend';
 
 import { API_MEMES_TEMPLATE_IMG } from '../../config';
 
@@ -29,7 +29,8 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 		deleteTextMeme,
 	} = useFormMemeReducer(defaultState);
 
-	const [createMeme, { isError, isLoading }] = useNewMemeMutation();
+	const [createMeme, { isError: isErrorToCreateMeme, isLoading: isLoadingToCreateMeme }] = useNewMemeMutation();
+	const [editMeme, { isError: isErrorToEditMeme, isLoading: isLoadingToEditMeme }] = useEditMemeMutation();
 
 	const { notifyError, notifySuccess } = useNotification();
 
@@ -73,17 +74,34 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 				// TODO: Utilizar el idMemeToEdit para saber cuando se esta editando y cambiar la url
 
 				if (idMemeToEdit) {
+					await editMeme({ editToMeme: formData, memeId: idMemeToEdit }).unwrap();
 				} else {
 					await createMeme(formData).unwrap();
 				}
 
-				if (isError) {
+				if (isErrorToCreateMeme || isErrorToEditMeme) {
 					throw new Error('Error to create meme');
 				}
-				notifySuccess('Meme created successfully');
+
+				let successMessage: string;
+				if (idMemeToEdit) {
+					successMessage = 'Meme edited successfully';
+				} else {
+					successMessage = 'Meme created successfully';
+				}
+
+				notifySuccess(successMessage);
 			} catch (err) {
 				console.error(err);
-				notifyError('Error to create meme');
+
+				let errorMessage: string;
+				if (idMemeToEdit) {
+					errorMessage = 'Error to edit meme';
+				} else {
+					errorMessage = 'Error to create meme';
+				}
+
+				notifyError(errorMessage);
 			}
 		});
 	};
@@ -136,7 +154,7 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 			</div>
 			<div className='mt-3'>
 				<ButtonPurpleToBlue disabled={inputsData.image_url === undefined} type='submit'>
-					{isLoading ? 'Loading...' : 'Save'}
+					{isLoadingToCreateMeme || isLoadingToEditMeme ? 'Loading...' : 'Save'}
 				</ButtonPurpleToBlue>
 
 				<ButtonPinkToOrange type='button' disabled={inputsData.image_url === undefined} onClick={handleDownload}>

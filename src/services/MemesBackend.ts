@@ -61,10 +61,19 @@ export const MemesBackendAPI = createApi({
 			invalidatesTags: ['UserMeme', 'PublicMeme'],
 			extraOptions: { maxRetries: 0 },
 		}),
+		editMeme: builder.mutation<Meme, { editToMeme: FormData; memeId: string }>({
+			query: ({ editToMeme, memeId }) => ({
+				url: `/update/${memeId}`,
+				method: 'PUT',
+				body: editToMeme,
+			}),
+			invalidatesTags: ['UserMeme', 'PublicMeme'],
+			extraOptions: { maxRetries: 0 },
+		}),
 		editNameMeme: builder.mutation<Meme, { memeId: string; name: string }>({
 			query: ({ memeId, name }) => ({
 				url: `/rename/${memeId}`,
-				method: 'PUT',
+				method: 'PATCH',
 				body: { name },
 			}),
 			invalidatesTags: ['UserMeme', 'PublicMeme'],
@@ -79,5 +88,6 @@ export const {
 	useGetMemeByIdMutation,
 	useNewMemeMutation,
 	useDeleteMemeMutation,
+	useEditMemeMutation,
 	useEditNameMemeMutation,
 } = MemesBackendAPI;
