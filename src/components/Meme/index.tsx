@@ -4,8 +4,6 @@ import { useReduxDispatch, useReduxSelector } from '../../store';
 
 import { openRenameMemeModal } from '../../store/slices/meme/MemeSlice';
 
-import { URL_BACKEND } from '../../config';
-
 import { Link } from 'react-router-dom';
 
 import type { Meme as MemeType } from '../../types/Meme';
@@ -24,10 +22,7 @@ function Meme({ meme }: MemeProps) {
 				{meme.name} {!meme.access && <span className='inline-block text-orange-400 mr-auto'>| Private |</span>}
 			</h2>
 			<div className='h-full max-h-80'>
-				<img
-					src={`${URL_BACKEND}/storage/imgs/${meme.path_image}`}
-					className='mx-auto h-full object-cover object-center w-full'
-				/>
+				<img src={meme.path_image} className='mx-auto h-full object-cover object-center w-full' />
 			</div>
 			{isCreator && <OptionsMeme meme={meme} />}
 		</div>

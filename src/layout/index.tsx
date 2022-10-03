@@ -3,16 +3,15 @@ import ModalRenameMeme from '../components/Modal';
 
 import Header from '../components/Header';
 import Page from '../page';
+import Footer from '../components/Footer';
 
 function Layout() {
 	return (
 		<>
 			<Header />
 			<Page />
-			<footer>
-				<p>FOOTER</p>
-			</footer>
-			<ModalRenameMeme />;
+			<Footer />
+			<ModalRenameMeme />
 			<Toaster
 				position='top-center'
 				reverseOrder={true}
