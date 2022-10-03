@@ -2,7 +2,7 @@ import { useGetUserMemesQuery } from '../services/MemesBackend';
 
 import Container from '../components/Container';
 import GridMemes from '../components/GridMemes';
-import Meme from '../components/Meme';
+import MemeDetails from '../components/MemeDetails';
 import AlertError from '../components/Alerts/Error';
 import Spinner from '../components/Spinner';
 
@@ -14,12 +14,12 @@ function UserPage() {
 			<Container>
 				<h2 className='text-center text-2xl mb-7'>User Memes</h2>
 				<div>
-					{isLoading && <Spinner />}
-
-					{memes !== undefined && memes.length !== 0 ? (
+					{isLoading ? (
+						<Spinner />
+					) : memes !== undefined && memes.length !== 0 ? (
 						<GridMemes>
 							{memes.map((meme) => (
-								<Meme meme={meme} key={meme.uuid} />
+								<MemeDetails meme={meme} key={meme.uuid} />
 							))}
 						</GridMemes>
 					) : (

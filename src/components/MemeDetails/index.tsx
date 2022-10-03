@@ -11,7 +11,7 @@ import type { Meme as MemeType } from '../../types/Meme';
 interface MemeProps {
 	meme: MemeType;
 }
-function Meme({ meme }: MemeProps) {
+function MemeDetails({ meme }: MemeProps) {
 	const userState = useReduxSelector((state) => state.user);
 
 	const isCreator = userState.userInfo?.id === meme.user_id;
@@ -79,4 +79,4 @@ function OptionsMeme({ meme }: OptionsMemeProps) {
 	);
 }
 
-export default Meme;
+export default MemeDetails;

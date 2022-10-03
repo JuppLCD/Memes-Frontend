@@ -32,7 +32,7 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 	const [createMeme, { isError: isErrorToCreateMeme, isLoading: isLoadingToCreateMeme }] = useNewMemeMutation();
 	const [editMeme, { isError: isErrorToEditMeme, isLoading: isLoadingToEditMeme }] = useEditMemeMutation();
 
-	const { notifyError, notifySuccess } = useNotification();
+	const { notifyError, notifySuccess, notifyLoading } = useNotification();
 
 	const imgMemeRef = useRef<HTMLImageElement>();
 
@@ -56,6 +56,7 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 				console.error('No se pudo crear el objeto Blob utilizando canvas');
 				return;
 			}
+			notifyLoading();
 
 			const formData = new FormData();
 			formData.append('name', inputsData.name);
@@ -71,8 +72,6 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 			}
 
 			try {
-				// TODO: Utilizar el idMemeToEdit para saber cuando se esta editando y cambiar la url
-
 				if (idMemeToEdit) {
 					await editMeme({ editToMeme: formData, memeId: idMemeToEdit }).unwrap();
 				} else {
