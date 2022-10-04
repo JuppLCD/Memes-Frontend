@@ -27,13 +27,15 @@ export class ReducerActionClass {
 
 		if (target.name === 'file' && target.files) {
 			const supportType = ['image/png', 'image/jpg', 'image/jpeg'];
-			const file = target.files[0];
+			const file: File = target.files[0];
 
 			if (!file) {
 				return state;
 			}
 
-			if (supportType.includes(file.type)) {
+			const bytesInMegaBytes = 1048576;
+
+			if (supportType.includes(file.type) && file.size < bytesInMegaBytes * 10) {
 				return {
 					...state,
 					file,
@@ -42,6 +44,7 @@ export class ReducerActionClass {
 				};
 			} else {
 				// notifyError('Invalid file type, valid types are: png, jpg, jpeg');
+				alert('Invalid format type or image size greater than 10mb');
 				return state;
 			}
 		}

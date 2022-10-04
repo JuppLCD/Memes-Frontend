@@ -1,10 +1,10 @@
 import { FormUser } from '../../types/Form';
 
 const initialState: FormUser = {
-	email: 'ejemplo@gmail.com',
-	name: 'user2',
-	password: '123',
-	passwordConfirm: '123',
+	email: '',
+	name: '',
+	password: '',
+	passwordConfirm: '',
 	rememberMe: false,
 };
 

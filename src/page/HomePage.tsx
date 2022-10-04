@@ -27,7 +27,8 @@ function HomePage() {
 					</>
 				) : (
 					<>
-						<p>No user</p>
+						<h3>User not logged in</h3>
+						<p>test user -&gt; email : ejemplo@gmail.com , password: 123</p>
 					</>
 				)}
 			</Container>

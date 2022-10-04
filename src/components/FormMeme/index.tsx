@@ -118,7 +118,7 @@ function FormMeme({ defaultState, idMemeToEdit }: Props) {
 	};
 
 	return (
-		<Form onSubmit={handleSubmit} encType='multipart/form-data' title='Create Meme'>
+		<Form onSubmit={handleSubmit} encType='multipart/form-data' title='Create Meme' className='max-w-4xl mx-auto'>
 			<div className='mb-6'>
 				<Form.InputLabel label='Name:' type='text' name='name' value={inputsData.name} onChange={handleChangeInput} />
 			</div>

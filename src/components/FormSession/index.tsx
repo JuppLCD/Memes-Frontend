@@ -96,7 +96,7 @@ function FormSession({ path }: Props) {
 	const titleForm = path === 'login' ? 'Log In' : 'Register';
 
 	return (
-		<Form title={titleForm} onSubmit={handleSubmit}>
+		<Form title={titleForm} onSubmit={handleSubmit} className='max-w-2xl mx-auto'>
 			<div>
 				{path === 'login'
 					? inputsPropsLogin.map((infoInput, index) => (
