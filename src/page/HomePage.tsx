@@ -27,8 +27,13 @@ function HomePage() {
 					</>
 				) : (
 					<>
-						<h3>User not logged in</h3>
-						<p>test user -&gt; email : ejemplo@gmail.com , password: 123</p>
+						<h1 className='text-4xl text-center mb-5'>Meme generator</h1>
+						<p>
+							Create your own memes using 'Imgflip' templates, or upload your own templates and add text to create, save
+							or download your memes. ( In order to use the app you must be logged in )
+							<br />
+							Share your memes with other users and have fun.
+						</p>
 					</>
 				)}
 			</Container>

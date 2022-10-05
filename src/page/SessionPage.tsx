@@ -5,6 +5,7 @@ const SessionPage = () => {
 	return (
 		<main>
 			<Container>
+				<p className='text-right'>Test-User =&gt; [ email : ejemplo@gmail.com , password: 123 ]</p>
 				<Outlet />
 			</Container>
 		</main>
